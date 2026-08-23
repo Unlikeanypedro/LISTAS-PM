@@ -94,7 +94,7 @@ public class ATV5 {
         }
 
         if (primeiro) {
-            System.out.println("Nenhum habitante foi informado.");
+            System.out.println("Nenhum habitante.");
         } else {
             System.out.println("Maior idade: " + maiorIdade);
             System.out.println("Menor idade: " + menorIdade);
