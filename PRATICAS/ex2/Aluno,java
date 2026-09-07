@@ -1,0 +1,131 @@
+import java.time.LocalDate;
+import java.time.Period;
+
+public class Aluno {
+
+    String nome;
+    LocalDate dataNascimento;
+    int idade;
+
+    int coragem;
+    int inteligencia;
+    int ambicao;
+    int lealdade;
+    int estrategia;
+    int criatividade;
+
+    String casa;
+    String codigoMatricula;
+
+    int calcularIdade() {
+        return Period.between(dataNascimento, LocalDate.now()).getYears();
+    }
+
+    boolean verificarMaioridadeMagica() {
+        return calcularIdade() >= 17;
+    }
+
+    String formatarCasa() {
+        return casa.toUpperCase();
+    }
+
+    String gerarUsuario() {
+        String[] partes = nome.trim().split(" ");
+
+        if (partes.length < 2) {
+            return nome.toLowerCase();
+        }
+
+        return partes[0].substring(0, 1).toLowerCase()
+                + partes[partes.length - 1].toLowerCase();
+    }
+
+    String gerarCodigoMatricula(int posicao) {
+
+        String[] partes = nome.trim().split(" ");
+
+        String iniciais = "";
+
+        for (String parte : partes) {
+            iniciais += parte.substring(0, 1).toUpperCase();
+        }
+
+        codigoMatricula =
+                iniciais + "-"
+                + LocalDate.now().getYear()
+                + "-"
+                + String.format("%02d", posicao);
+
+        return codigoMatricula;
+    }
+
+    boolean verificarCasa(String casaInformada) {
+        return casa.equalsIgnoreCase(casaInformada);
+    }
+
+    boolean verificarSobrenome(String texto) {
+
+        String[] partes = nome.toLowerCase().split(" ");
+
+        for (int i = 1; i < partes.length; i++) {
+            if (partes[i].contains(texto.toLowerCase())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void exibirInformacoes() {
+
+        System.out.println("\n===== ALUNO =====");
+        System.out.println("Nome: " + nome);
+        System.out.println("Idade: " + calcularIdade());
+        System.out.println("Casa: " + casa);
+        System.out.println("Usuário: " + gerarUsuario());
+        System.out.println("Matrícula: " + codigoMatricula);
+        System.out.println("Maioridade Mágica: "
+                + (verificarMaioridadeMagica() ? "SIM" : "NÃO"));
+    }
+
+    String calcularCasa() {
+
+        int[] valores = new int[4];
+
+        valores[0] = (2 * coragem) + lealdade;
+        valores[1] = (2 * ambicao) + estrategia;
+        valores[2] = (2 * inteligencia) + criatividade;
+        valores[3] = ((2 * lealdade) + coragem) / 3;
+
+        int maiorValor = valores[0];
+        int posValor = 0;
+
+        for (int i = 1; i < valores.length; i++) {
+
+            if (valores[i] > maiorValor) {
+                maiorValor = valores[i];
+                posValor = i;
+            }
+        }
+
+        switch (posValor) {
+
+            case 0:
+                casa = "Grifinória";
+                break;
+
+            case 1:
+                casa = "Sonserina";
+                break;
+
+            case 2:
+                casa = "Corvinal";
+                break;
+
+            default:
+                casa = "Lufa-Lufa";
+        }
+
+        return casa;
+    }
+}
